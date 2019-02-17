@@ -88,6 +88,41 @@ int main(int argc, char* argv[])
         }
         else
         {
+            // Load .WAV sound
+            SDL_AudioSpec wavSpec;
+            Uint32 wavLength;
+            Uint8 *wavBuffer;
+            if(!SDL_LoadWAV(WAVES_SOUND, &wavSpec, &wavBuffer, &wavLength))
+            {
+                printf(".WAV sound '%s' could not be loaded!\n"
+                       "SDL_Error: %s\n", WAVES_SOUND, SDL_GetError());
+                return 0;
+            }
+
+            // Open audio device
+            SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+            if(!deviceId)
+            {
+                printf("Audio device could not be opened!\n"
+                       "SDL_Error: %s\n", SDL_GetError());
+                SDL_FreeWAV(wavBuffer);
+                return 0;
+            }
+
+            // Queue audio (~ Add to playlist)
+            if(SDL_QueueAudio(deviceId, wavBuffer, wavLength) < 0)
+            {
+                printf("Audio could not be queued!\n"
+                       "SDL_Error: %s\n", SDL_GetError());
+                SDL_CloseAudioDevice(deviceId);
+                SDL_FreeWAV(wavBuffer);
+                return 0;
+            }
+
+            // Play audio
+            SDL_PauseAudioDevice(deviceId, 0);
+
+
             // Declare rect of square
             SDL_Rect squareRect;
 
@@ -132,6 +167,10 @@ int main(int argc, char* argv[])
                 // Update screen
                 SDL_RenderPresent(renderer);
             }
+
+            // Clean up audio
+            SDL_CloseAudioDevice(deviceId);
+            SDL_FreeWAV(wavBuffer);
 
             // Destroy renderer
             SDL_DestroyRenderer(renderer);
