@@ -2,6 +2,8 @@
 
 This project is a basic sample written in C that demonstrates how we can play
 audio using the [SDL2][SDL] library. It uses [CMake][] as a build system.
+This program will start playing waves sound that can be paused/resumed by
+pressing the SPACE key.
 
 
 It could be used as a base for any SDL2 project. Just fork it, clone it and
