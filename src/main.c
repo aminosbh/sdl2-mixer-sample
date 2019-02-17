@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 #endif
 
     // Create window
-    SDL_Window *window = SDL_CreateWindow("SDL2 audio sample",
+    SDL_Window *window = SDL_CreateWindow("SDL2 audio sample (Press SPACE to pause/play)",
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -150,6 +150,18 @@ int main(int argc, char* argv[])
                 if(e.type == SDL_QUIT)
                 {
                     quit = true;
+                }
+                else if(e.type == SDL_KEYDOWN)
+                {
+                    switch (e.key.keysym.sym)
+                    {
+                    case SDLK_SPACE:
+                        if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PLAYING)
+                            SDL_PauseAudioDevice(deviceId, 1);
+                        else if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PAUSED)
+                            SDL_PauseAudioDevice(deviceId, 0);
+                        break;
+                    }
                 }
 
                 // Initialize renderer color white for the background
