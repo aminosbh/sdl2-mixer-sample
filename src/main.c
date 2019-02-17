@@ -41,6 +41,8 @@
 #define SCREEN_WIDTH    800
 #define SCREEN_HEIGHT   600
 
+#define WAVES_SOUND "assets/waves-at-baltic-sea-shore/waves-at-baltic-sea-shore.wav"
+
 int main(int argc, char* argv[])
 {
     // Unused argc, argv
@@ -48,7 +50,7 @@ int main(int argc, char* argv[])
     (void) argv;
 
     // Initialize SDL
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         printf("SDL could not be initialized!\n"
                "SDL_Error: %s\n", SDL_GetError());
@@ -121,8 +123,8 @@ int main(int argc, char* argv[])
                 // Clear screen
                 SDL_RenderClear(renderer);
 
-                // Set renderer color red to draw the square
-                SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+                // Set renderer color blue to draw the square
+                SDL_SetRenderDrawColor(renderer, 0x19, 0x71, 0xA9, 0xFF);
 
                 // Draw filled square
                 SDL_RenderFillRect(renderer, &squareRect);
