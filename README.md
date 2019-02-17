@@ -3,7 +3,8 @@
 This project is a basic sample written in C that demonstrates the usage of the
 [SDL2][SDL] and [SDL2_mixer][] libraries. It uses [CMake][] as a build system.
 This program will start playing waves sound that can be paused/resumed by
-pressing the SPACE key.
+pressing the SPACE key. When one of the arrows keys is pressed a sound effect
+is played parallelly with the waves sound.
 
 
 It could be used as a base for any SDL2 project. Just fork it, clone it and
