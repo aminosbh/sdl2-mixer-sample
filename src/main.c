@@ -135,6 +135,16 @@ int main(int argc, char* argv[])
             squareRect.y = SCREEN_HEIGHT / 2 - squareRect.h / 2;
 
 
+            // Declare rects of pause symbol
+            SDL_Rect pauseRect1, pauseRect2;
+            pauseRect1.h = squareRect.h / 2;
+            pauseRect1.w = 40;
+            pauseRect1.x = squareRect.x + (squareRect.w - pauseRect1.w*3) / 2;
+            pauseRect1.y = squareRect.y + squareRect.h / 4;
+            pauseRect2 = pauseRect1;
+            pauseRect2.x += pauseRect1.w * 2;
+
+
             // Event loop exit flag
             bool quit = false;
 
@@ -175,6 +185,18 @@ int main(int argc, char* argv[])
 
                 // Draw filled square
                 SDL_RenderFillRect(renderer, &squareRect);
+
+                // Check pause status
+                if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PAUSED)
+                {
+                    // Set renderer color white to draw the pause symbol
+                    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+                    // Draw pause symbol
+                    SDL_RenderFillRect(renderer, &pauseRect1);
+                    SDL_RenderFillRect(renderer, &pauseRect2);
+                }
+
 
                 // Update screen
                 SDL_RenderPresent(renderer);
