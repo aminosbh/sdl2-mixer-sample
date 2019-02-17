@@ -44,7 +44,7 @@ sudo apt install codeblocks
 
 ```sh
 # Create a folder for the Code::Blocks project
-cd sdl2-audio-sample
+cd sdl2-mixer-sample
 mkdir -p build/codeblocks
 cd build/codeblocks
 
@@ -53,7 +53,7 @@ cmake ../.. -G "CodeBlocks - Unix Makefiles"
 ```
 
 *Open the project:*<br>
-Run Code::Blocks, and open the project in `sdl2-audio-sample/build/codeblocks`.<br>
+Run Code::Blocks, and open the project in `sdl2-mixer-sample/build/codeblocks`.<br>
 Finally, build and run the project.
 
 
@@ -72,15 +72,15 @@ Offline package: https://www.eclipse.org/downloads/packages
 
 ```sh
 # Create a folder for the Eclipse project outside this project
-cd sdl2-audio-sample
-mkdir ../eclipse-sdl2-audio-sample
-cd ../eclipse-sdl2-audio-sample
+cd sdl2-mixer-sample
+mkdir ../eclipse-sdl2-mixer-sample
+cd ../eclipse-sdl2-mixer-sample
 
 # Generate an Eclipse project
-cmake ../sdl2-audio-sample -G "Eclipse CDT4 - Unix Makefiles"
+cmake ../sdl2-mixer-sample -G "Eclipse CDT4 - Unix Makefiles"
 ```
 *Open the project:*<br>
-Run Eclipse, and open the project in `eclipse-sdl2-audio-sample`.<br>
+Run Eclipse, and open the project in `eclipse-sdl2-mixer-sample`.<br>
 Create a new run configuration: Go to `Run` &gt; `Run configurations` &gt;
 `C\C++ Application` and specify the C/C++ Application using `Search Project...`<br>
 Finally, build and run the project.
