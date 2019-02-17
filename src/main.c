@@ -44,6 +44,11 @@
 
 #define WAVES_SOUND "assets/waves-at-baltic-sea-shore/waves-at-baltic-sea-shore.wav"
 
+#define CLAP_SOUND              "assets/claps-and-snares/clap.ogg"
+#define SNARE_SOUND             "assets/claps-and-snares/snare.ogg"
+#define TECHNO_CLAP_SNARE_SOUND "assets/claps-and-snares/techno-clap-snare.ogg"
+#define REVERB_SNARE_SOUND      "assets/claps-and-snares/dubstep-reverb-snare.ogg"
+
 int main(int argc, char* argv[])
 {
     // Unused argc, argv
@@ -106,6 +111,18 @@ int main(int argc, char* argv[])
                 return 0;
             }
 
+            // Load .OGG sounds
+            Mix_Music *clapnsnare1 = Mix_LoadMUS(CLAP_SOUND);
+            Mix_Music *clapnsnare2 = Mix_LoadMUS(SNARE_SOUND);
+            Mix_Music *clapnsnare3 = Mix_LoadMUS(TECHNO_CLAP_SNARE_SOUND);
+            Mix_Music *clapnsnare4 = Mix_LoadMUS(REVERB_SNARE_SOUND);
+            if(!clapnsnare1 || !clapnsnare2 || !clapnsnare3 || !clapnsnare4)
+            {
+                printf("One of the .OGG sounds could not be loaded!\n"
+                       "SDL_Error: %s\n", SDL_GetError());
+                return 0;
+            }
+
             // Play waves sound
             if(Mix_PlayChannel(-1, waves, 0) == -1)
             {
@@ -163,6 +180,38 @@ int main(int argc, char* argv[])
                         else
                             Mix_Pause(-1);
                         break;
+
+                    case SDLK_RIGHT:
+                        if(Mix_PlayMusic(clapnsnare1, 1) == -1)
+                        {
+                            printf(".OGG sound could not be played!\n"
+                                   "SDL_Error: %s\n", SDL_GetError());
+                        }
+                        break;
+
+                    case SDLK_LEFT:
+                        if(Mix_PlayMusic(clapnsnare2, 1) == -1)
+                        {
+                            printf(".OGG sound could not be played!\n"
+                                   "SDL_Error: %s\n", SDL_GetError());
+                        }
+                        break;
+
+                    case SDLK_UP:
+                        if(Mix_PlayMusic(clapnsnare3, 1) == -1)
+                        {
+                            printf(".OGG sound could not be played!\n"
+                                   "SDL_Error: %s\n", SDL_GetError());
+                        }
+                        break;
+
+                    case SDLK_DOWN:
+                        if(Mix_PlayMusic(clapnsnare4, 1) == -1)
+                        {
+                            printf(".OGG sound could not be played!\n"
+                                   "SDL_Error: %s\n", SDL_GetError());
+                        }
+                        break;
                     }
                 }
 
@@ -196,6 +245,10 @@ int main(int argc, char* argv[])
 
             // Clean up audio
             Mix_FreeChunk(waves);
+            Mix_FreeMusic(clapnsnare1);
+            Mix_FreeMusic(clapnsnare2);
+            Mix_FreeMusic(clapnsnare3);
+            Mix_FreeMusic(clapnsnare4);
 
             // Destroy renderer
             SDL_DestroyRenderer(renderer);
