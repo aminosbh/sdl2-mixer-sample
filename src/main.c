@@ -98,39 +98,22 @@ int main(int argc, char* argv[])
         else
         {
             // Load .WAV sound
-            SDL_AudioSpec wavSpec;
-            Uint32 wavLength;
-            Uint8 *wavBuffer;
-            if(!SDL_LoadWAV(WAVES_SOUND, &wavSpec, &wavBuffer, &wavLength))
+            Mix_Chunk *waves = Mix_LoadWAV(WAVES_SOUND);
+            if(!waves)
             {
                 printf(".WAV sound '%s' could not be loaded!\n"
                        "SDL_Error: %s\n", WAVES_SOUND, SDL_GetError());
                 return 0;
             }
 
-            // Open audio device
-            SDL_AudioDeviceID deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
-            if(!deviceId)
+            // Play waves sound
+            if(Mix_PlayChannel(-1, waves, 0) == -1)
             {
-                printf("Audio device could not be opened!\n"
+                printf("Waves sound could not be played!\n"
                        "SDL_Error: %s\n", SDL_GetError());
-                SDL_FreeWAV(wavBuffer);
+                Mix_FreeChunk(waves);
                 return 0;
             }
-
-            // Queue audio (~ Add to playlist)
-            if(SDL_QueueAudio(deviceId, wavBuffer, wavLength) < 0)
-            {
-                printf("Audio could not be queued!\n"
-                       "SDL_Error: %s\n", SDL_GetError());
-                SDL_CloseAudioDevice(deviceId);
-                SDL_FreeWAV(wavBuffer);
-                return 0;
-            }
-
-            // Play audio
-            SDL_PauseAudioDevice(deviceId, 0);
-
 
             // Declare rect of square
             SDL_Rect squareRect;
@@ -175,10 +158,10 @@ int main(int argc, char* argv[])
                     switch (e.key.keysym.sym)
                     {
                     case SDLK_SPACE:
-                        if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PLAYING)
-                            SDL_PauseAudioDevice(deviceId, 1);
-                        else if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PAUSED)
-                            SDL_PauseAudioDevice(deviceId, 0);
+                        if(Mix_Paused(-1))
+                            Mix_Resume(-1);
+                        else
+                            Mix_Pause(-1);
                         break;
                     }
                 }
@@ -196,7 +179,7 @@ int main(int argc, char* argv[])
                 SDL_RenderFillRect(renderer, &squareRect);
 
                 // Check pause status
-                if(SDL_GetAudioDeviceStatus(deviceId) == SDL_AUDIO_PAUSED)
+                if(Mix_Paused(-1))
                 {
                     // Set renderer color white to draw the pause symbol
                     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -212,8 +195,7 @@ int main(int argc, char* argv[])
             }
 
             // Clean up audio
-            SDL_CloseAudioDevice(deviceId);
-            SDL_FreeWAV(wavBuffer);
+            Mix_FreeChunk(waves);
 
             // Destroy renderer
             SDL_DestroyRenderer(renderer);
