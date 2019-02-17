@@ -75,6 +75,10 @@ Files under the `assets/waves-at-baltic-sea-shore` directory are distributed
 under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication license. (For
 more details, please see [&lt;README.md&gt;](assets/waves-at-baltic-sea-shore/README.md)).
 
+Files under the `assets/claps-and-snares` directory are distributed
+under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication license. (For
+more details, please see [&lt;README.md&gt;](assets/claps-and-snares/README.md)).
+
 
 
 [SDL]: https://www.libsdl.org
