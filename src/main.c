@@ -32,6 +32,7 @@
 #include <stdbool.h>
 
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 // Define MAX and MIN macros
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
@@ -53,6 +54,14 @@ int main(int argc, char* argv[])
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
     {
         printf("SDL could not be initialized!\n"
+               "SDL_Error: %s\n", SDL_GetError());
+        return 0;
+    }
+
+    //Initialize SDL2_mixer
+    if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+    {
+        printf("SDL2_mixer could not be initialized!\n"
                "SDL_Error: %s\n", SDL_GetError());
         return 0;
     }
@@ -213,6 +222,9 @@ int main(int argc, char* argv[])
         // Destroy window
         SDL_DestroyWindow(window);
     }
+
+    // Quit SDL2_mixer
+    Mix_CloseAudio();
 
     // Quit SDL
     SDL_Quit();
